@@ -1,25 +1,23 @@
 import asyncio
 from aiogram import types
 import logging
-from bot import bot, dp
+from bot import bot, dp, set_commands
 from handlers import (
     start_router,
     echo_router,
     books_router,
+    poll_about_books_router
     #  picture_router,
 )
 
 
 async def main():
-    await bot.set_my_commands([
-        types.BotCommand(command="start", description="Начало"),
-        # types.BotCommand(command="pic", description="Получить картинку"),
-        types.BotCommand(command="books", description="Получить книгу"),
-    ])
+    await set_commands()
     # добавляем роутеры
     dp.include_router(start_router)
     # dp.include_router(picture_router)
     dp.include_router(books_router)
+    dp.include_router(poll_about_books_router)
 
     # в самом конце
     dp.include_router(echo_router)
