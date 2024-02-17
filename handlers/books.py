@@ -1,28 +1,32 @@
 from aiogram import Router, F, types
 from aiogram.filters import Command
+from bot import db
 
 books_router = Router()
 
 
 @books_router.message(Command("books"))
 async def show_all_books(message: types.Message):
-    kb = types.ReplyKeyboardMarkup(
-        keyboard=[
-            [
-                types.KeyboardButton(text="Роман"),
-                types.KeyboardButton(text="Детектив"),
-            ],
-            [
-                types.KeyboardButton(text="Драма"),
-                types.KeyboardButton(text="Фэнтэзи"),
-            ],
-            [
-                types.KeyboardButton(text="Комиксы"),
-            ]
-        ],
-        resize_keyboard=True
-    )
-    await message.answer(f"Выберите жанр книги из меню ниже", reply_markup=kb)
+    books = db.get_books()
+    for course in books:
+        await message.answer(f"Название книги: {course[1]}\nОписание: {course[2]}")
+    # kb = types.ReplyKeyboardMarkup(
+    #     keyboard=[
+    #         [
+    #             types.KeyboardButton(text="Роман"),
+    #             types.KeyboardButton(text="Детектив"),
+    #         ],
+    #         [
+    #             types.KeyboardButton(text="Драма"),
+    #             types.KeyboardButton(text="Фэнтэзи"),
+    #         ],
+    #         [
+    #             types.KeyboardButton(text="Комиксы"),
+    #         ]
+    #     ],
+    #     resize_keyboard=True
+    # )
+    # await message.answer(f"Выберите жанр книги из меню ниже", reply_markup=kb)
 
     @books_router.message(F.text == "Роман")
     async def show_romance(message: types.Message):
