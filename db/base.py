@@ -12,8 +12,9 @@ class DB:
 
     def create_tables(self):
         """Создание таблиц"""
-        self.cursor.execute("DROP TABLE IF EXISTS author")
-        self.cursor.execute('''CREATE TABLE author(
+        self.cursor.execute("DROP TABLE IF EXISTS authors")
+        self.cursor.execute("DROP TABLE IF EXISTS books")
+        self.cursor.execute('''CREATE TABLE authors(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL
         )
@@ -31,23 +32,24 @@ class DB:
 
     def populate_tables(self):
         """Заполнение таблиц"""
-        self.cursor.execute('''
-            INSERT INTO books (name, description, duration, image) VALUES  
-            ("Алиса в зазеркалье", "Алиса в зазеркалье-это...",2800,"images/Alice.jpg"), 
-            ("Гарри Поттер", "Гарри Поттер-это...", 3000,"images/Harry Potter.jpg"), 
-            ("Вишневый сад", "Вишневый сад- это...",1500,"images/The Cherry Orchard.jpg"), 
-            ("Переполох", "Переполох-это...",1000, "images/Perepoloh.jpg"), 
-            ("Алиса в стране чудес", "Алиса в стране чудес-это ...",2500, "images/Alice in Wonderland.jpg") 
-        ''')
         self.cursor.execute('''INSERT INTO authors(name) VALUES ("Льюис Кэрролл")''')
         self.cursor.execute('''INSERT INTO authors(name) VALUES ("Антон Чехов")''')
         self.cursor.execute('''INSERT INTO authors(name) VALUES ("Джоан Роулинг")''')
+
+        self.cursor.execute('''
+                  INSERT INTO books (name, description, duration, image, author_id) VALUES  
+                  ("Алиса в зазеркалье", "Алиса в зазеркалье-это...",2800,"images/Alice.jpg",1),
+                  ("Гарри Поттер", "Гарри Поттер-это...", 3000,"images/Harry Potter.jpg",3),
+                  ("Вишневый сад", "Вишневый сад- это...",1500,"images/The Cherry Orchard.jpg",2),
+                  ("Переполох", "Переполох-это...",1000, "images/Perepoloh.jpg",2),
+                  ("Алиса в стране чудес", "Алиса в стране чудес-это ...",2500, "images/Alice in Wonderland.jpg",1) 
+              ''')
         self.connection.commit()
 
     def get_books(self):
         """Получение книг"""
         # Пропустить первые две книги и показать следующие две книги.
-        self.cursor.execute('SELECT id, name FROM books LIMIT 2 OFFSET 2')
+        self.cursor.execute('SELECT id, name FROM books')
         # self.cursor.execute('SELECT * FROM books LIMIT 2')
         return self.cursor.fetchall()
 
@@ -70,6 +72,18 @@ class DB:
         """Получение авторов"""
         self.cursor.execute(
             "SELECT FROM authors WHERE book_id = 1"
+        )
+        return self.cursor.fetchall()
+
+    def get_authors(self):
+        self.cursor.execute(
+            'SELECT * FROM authors'
+        )
+        return self.cursor.fetchall()
+
+    def get_book_by_author(self, author_id):
+        self.cursor.execute(
+            'SELECT * FROM books WHERE author_id = :author_id', {'author_id': author_id}
         )
         return self.cursor.fetchall()
 

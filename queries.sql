@@ -21,26 +21,26 @@ SELECT * FROM books WHERE duration BETWEEN 500 AND 3000;
 CREATE TABLE author (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-    book_id INTEGER,
-    FOREIGN KEY (book_id) REFERENCES books(id)
+    author_id INTEGER,
+    FOREIGN KEY (author_id) REFERENCES authors(id)
 );
 
 -- Внести данные в таблицу авторов
-INSERT INTO authors (name, book_id) VALUES
-    ('Льюис Кэрролл', 1),
-    ('Антон Чехов', 2),
-    ('Джоан Роулинг', 3)
+INSERT INTO authors (name, author_id) VALUES
+    ('Льюис Кэрролл'),
+    ('Антон Чехов'),
+    ('Джоан Роулинг')
 
 -- получить всех авторов одной книги
-SELECT * FROM books WHERE book_id = 1;
+SELECT * FROM books WHERE author_id = 1;
 
 -- получить авторов с названием книги
 SELECT t.name, c.name FROM authors AS
-JOIN books AS c ON t.book_id = c.id
+JOIN books AS c ON t.author_id = c.id
 
 -- получить преподавателей с названием курса, фильтр по id курса
 SELECT t.name, c.name FROM books AS t
-JOIN author AS c ON t.book_id = c.id
+JOIN author AS c ON t.author_id = c.id
 WHERE c.id = 1;
 
 --сохранение результата опросник

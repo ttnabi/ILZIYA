@@ -7,6 +7,7 @@ from handlers import (
     echo_router,
     books_router,
     poll_about_books_router
+
     #  picture_router,
 
 )
@@ -24,11 +25,10 @@ async def main():
     # dp.include_router(picture_router)
     dp.include_router(books_router)
     dp.include_router(poll_about_books_router)
-
     # в самом конце
     dp.include_router(echo_router)
-
     dp.startup.register(on_startup)
+
     # запуск бота
     await dp.start_polling(bot)
 
