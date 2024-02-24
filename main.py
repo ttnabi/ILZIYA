@@ -1,12 +1,13 @@
 import asyncio
 from aiogram import types
 import logging
-from bot import bot, dp, db, set_commands
+from bot import bot, dp, db, scheduler, set_commands
 from handlers import (
     start_router,
     echo_router,
     books_router,
-    poll_about_books_router
+    poll_about_books_router,
+    scheduler_message_router
 
     #  picture_router,
 
@@ -25,9 +26,12 @@ async def main():
     # dp.include_router(picture_router)
     dp.include_router(books_router)
     dp.include_router(poll_about_books_router)
+    dp.include_router(scheduler_message_router)
+
     # в самом конце
     dp.include_router(echo_router)
     dp.startup.register(on_startup)
+    scheduler.start()
 
     # запуск бота
     await dp.start_polling(bot)
