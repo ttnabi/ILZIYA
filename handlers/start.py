@@ -16,6 +16,9 @@ async def start_command(message: types.Message):
             [
                 types.InlineKeyboardButton(text="Наш instagram", url="https://www.instagram.com/book_shop.kg"),
                 types.InlineKeyboardButton(text="О нас", callback_data="about_us")
+            ],
+            [
+                types.InlineKeyboardButton(text="parser", callback_data="house")
             ]
         ]
     )
