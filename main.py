@@ -8,7 +8,8 @@ from handlers import (
     books_router,
     poll_about_books_router,
     scheduler_message_router,
-    house_router
+    house_router,
+    group_admin_router
     #  picture_router,
 
 )
@@ -16,13 +17,14 @@ from handlers import (
 
 async def on_startup():
     db.create_tables()
-    db.populate_tables()
+    # db.populate_tables()
 
 
 async def main():
     await set_commands()
     # добавляем роутеры
     dp.include_router(start_router)
+    dp.include_router(group_admin_router)
     # dp.include_router(picture_router)
     dp.include_router(books_router)
     dp.include_router(poll_about_books_router)

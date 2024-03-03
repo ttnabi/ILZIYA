@@ -17,7 +17,7 @@ SELECT * FROM books WHERE name = 'Гарри Поттер';
 -- получить книгу по цене
 SELECT * FROM books WHERE duration BETWEEN 500 AND 3000;
 
--- Добавить таблица с авторами
+Добавить таблица с авторами
 CREATE TABLE author (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
@@ -43,6 +43,6 @@ SELECT t.name, c.name FROM books AS t
 JOIN author AS c ON t.author_id = c.id
 WHERE c.id = 1;
 
---сохранение результата опросник
+
 
 
